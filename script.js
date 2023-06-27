@@ -4,16 +4,15 @@ WebMidi.enable().then(() => {
 
   WebMidi.inputs.forEach((input) => {
     input.addListener('noteon', 'all', (event) => {
-      activeNotes.add(event.note.name)
+      activeNotes.add(`${event.note.name}${event.note.accidental}`.replace('undefined', ''))
       detectChord()
-      console.log(activeNotes)
     })
   })
 
 
   WebMidi.inputs.forEach((input) => {
     input.addListener('noteoff', 'all', (event) => {
-      activeNotes.delete(event.note.name)
+      activeNotes.delete(`${event.note.name}${event.note.accidental}`.replace('undefined', ''))
       detectChord()
     })
   })
@@ -28,22 +27,22 @@ WebMidi.enable().then(() => {
 
   function getChordName(notes) {
     if (
-      notes.includes('C') /* C */ &&
-      notes.includes('E') /* E */ &&
-      notes.includes('G') /* G */
+      notes.includes('C') &&
+      notes.includes('E') &&
+      notes.includes('G')
     ) {
       return 'C Major'
     }
 
     if (
-      notes.includes(60) /* C */ &&
-      notes.includes(63) /* E */ &&
-      notes.includes(67) /* G */
+      notes.includes('C') &&
+      notes.includes('D#') &&
+      notes.includes('G')
     ) {
       return 'C Minor'
     }
 
-    return 'Unknown'
+    /* return 'Unknown' */
   }
 }).catch((error) => {
   console.error('Web MIDI could not be enabled:', error)
