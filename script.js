@@ -5,7 +5,7 @@ WebMidi.enable()
 function onEnabled() {
   if (WebMidi.inputs.length < 1) {
     console.log('No device detected.')
-  } else {s
+  } else {
     console.log(WebMidi.inputs[0])
   }
 
